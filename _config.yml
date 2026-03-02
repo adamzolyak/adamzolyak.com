@@ -1,10 +1,10 @@
-title: "Adam Zolyak"
-description: "I make as my work and as my art."
-url: "https://adamzolyak.com"
-baseurl: ""
+title: 'Meet Adam Zolyak'
+description: 'Learn about Adam and his work.'
+url: 'https://adamzolyak.com'
+baseurl: ''
 author:
   name: Adam Zolyak
-  email: ""
+  email: ''
 
 # Build settings
 markdown: kramdown
@@ -22,8 +22,8 @@ plugins:
 pagination:
   enabled: true
   per_page: 10
-  permalink: "/page/:num/"
-  sort_field: "date"
+  permalink: '/page/:num/'
+  sort_field: 'date'
   sort_reverse: true
 
 # Collections / pages
@@ -40,14 +40,14 @@ exclude:
 
 # Navigation
 nav_links:
-  - title: "About"
-    url: "/about/"
-  - title: "Spacious Work"
-    url: "/spacious-work/"
-  - title: "Making"
-    url: "/making/"
-  - title: "LinkedIn"
-    url: "https://www.linkedin.com/in/azolyak/"
+  - title: 'About'
+    url: '/about/'
+  - title: 'Spacious Work'
+    url: '/spacious-work/'
+  - title: 'Making'
+    url: '/making/'
+  - title: 'LinkedIn'
+    url: 'https://www.linkedin.com/in/azolyak/'
     external: true
 
 # Tags (site sections)
