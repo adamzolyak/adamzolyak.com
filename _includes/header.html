@@ -1,0 +1,21 @@
+<header class="site-header">
+  <div class="header-inner">
+    <a href="{{ '/' | relative_url }}" class="site-logo">
+      <img src="{{ '/assets/images/avatar.jpg' | relative_url }}" alt="{{ site.title }}" class="avatar">
+      <span class="site-title">{{ site.title }}</span>
+    </a>
+    <nav class="site-nav">
+      <a href="{{ '/' | relative_url }}" class="nav-link{% if page.url == '/' %} active{% endif %}">Home</a>
+      {% for link in site.nav_links %}
+        {% if link.external %}
+          <a href="{{ link.url }}" class="nav-link" target="_blank" rel="noopener">{{ link.title }}</a>
+        {% else %}
+          <a href="{{ link.url | relative_url }}" class="nav-link{% if page.url == link.url %} active{% endif %}">{{ link.title }}</a>
+        {% endif %}
+      {% endfor %}
+    </nav>
+    <button class="nav-toggle" aria-label="Toggle navigation" onclick="document.querySelector('.site-nav').classList.toggle('open')">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>

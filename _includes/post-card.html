@@ -1,0 +1,25 @@
+<article class="post-card">
+  {% if include.post.image %}
+  <a href="{{ include.post.url | relative_url }}" class="post-card-image-link">
+    <img src="{{ include.post.image | relative_url }}" alt="{{ include.post.title }}" class="post-card-image" loading="lazy">
+  </a>
+  {% endif %}
+  <div class="post-card-content">
+    {% if include.post.tags.size > 0 %}
+    <div class="post-card-tags">
+      {% for tag in include.post.tags limit:1 %}
+        <a href="{{ '/tag/' | append: tag | relative_url }}" class="post-card-tag">{{ tag | replace: '-', ' ' | capitalize }}</a>
+      {% endfor %}
+    </div>
+    {% endif %}
+    <h2 class="post-card-title">
+      <a href="{{ include.post.url | relative_url }}">{{ include.post.title }}</a>
+    </h2>
+    {% if include.post.excerpt %}
+    <p class="post-card-excerpt">{{ include.post.excerpt | strip_html | truncatewords: 30 }}</p>
+    {% endif %}
+    <div class="post-card-meta">
+      <time datetime="{{ include.post.date | date_to_xmlschema }}">{{ include.post.date | date: "%B %-d, %Y" }}</time>
+    </div>
+  </div>
+</article>
