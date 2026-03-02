@@ -1,0 +1,44 @@
+---
+layout: post
+title: "Das Bot (v0.1) - Instrumented Beer"
+date: 2012-05-10
+tags: ["making"]
+excerpt: "Oktoberfest is a big thing – BFD – in our household. We love beer, we love sausage, and we love hanging out with our friends. So what better way to celebrate those things then an annual Oktobesfest pa"
+---
+<!--kg-card-begin: html--><p>Oktoberfest is a big thing &#8211; BFD &#8211; in our household. We love beer, we love sausage, and we love hanging out with our friends. So what better way to celebrate those things then an annual Oktobesfest party. Our first &#8220;Fest&#8221; was held one week before my wife and I got married in 2008. It was informal and ad hoc &#8211; some bratwurst sausages, six packs of good beer, and friends sitting around a firepit on our side patio. Since those days, Fest has grown into a much bigger affair, complete with an Oktoberfest tent, photobooth, stump, homemade sausages, and homemade beer compliments of Matt and Matt &#8211; two of our friends who are also excellent beer brewers.</p>
+<p>We first hosted the Matt&#8217;s beers at the second Fest, creating The Trasherator out of a large rubber trashcan fitted with 3x beer taps and ample space for ice and 3x 1/6 beer kegs. So what could make this situation any better you ask. Das Bot!  Das Bot is an Instrumented version of The Trasherator that measures how much beer is consumed by each guest and keeps a running total of consumption complete with a leader board of stats.<br />
+The scenario works like this:</p>
+<ol>
+<li>A new drinker pickups a small key chain RFID tag and swipes it over Das Bot&#8217;s tag reader. A led light blinks confirming the tag has been read.</li>
+<li>If its a new drinker, Das Bot prints a message using a thermal receipt printer welcomes the drinker, asking the drinker to register, and advising the drinker they will recieve one beer without registering. If its an existing drinker, Das Bot prints a message with the drinkers consumption total.</li>
+<li>Das Bot opens solenoid valve in the beer lines enabling the flow of beer. The drinker has up to 10 seconds of inactive beer flow to pour as much beer as they want. As the beer is being pored, Das Bot is keeping track of how many ounces have been poured using a flowmeter in the beer line.</li>
+<li>Once the drinker has stopped pouring beer, Das Bot prints a message with the drinkers new total consumption and a summary of the top three consumers.</li>
+<li>Das Bot also has a web interface tat can be accessed via desktop and mobile web browsers enabling drinkers to register, provide their nickname, and check the overall leader board and % of beer renaming in the keg.</li>
+</ol>
+<p>Das Bot v1.0 was a big project so I enlisted the help of my friend Matt. Matt and I only started the project in earnest about a week and a half before Fest. We started with a envisioning session with a whiteboard, identifying the overall features and process flow, and discussing implementation plans and potential risks. We self assigned work based on our abilities and focusing on higher risk features first. While Matt worked on the enclosure, mounting, and wiring, I wrote code for each individual component &#8211; the RFID reader, the solenoid, the flowmeter, the Ethernet network interface and web service calls. After figuring out the electrical interfaces and code for each component, I started coding them together into the over process. Matt and I would periodically break to discuss progress, make additional implementation decisions, and help each other with impediments. We worked this way for a few nights, making steady progress. Matt also created the web service interface and web site. After some hasty testing Fest was upon us. As a final feature we added a kill switch that would bypass the system allowing beer to flow freely in the event of a malfunction. There&#8217;s noting worse for a beer dispensing robot then angry beer drinkers with no beer.</p>
+<blockquote><p>&#8220;There&#8217;s noting worse for a beer dispensing robot then angry beer drinkers with no beer&#8230;&#8221;</p></blockquote>
+<p>And so the day came &#8211; the day of Fest. With all the other preparations we were a bit rushed to setup Das Bot but successfully installed it on a single 1/6 keg. At first, all seemed well. But soon we found that Das Bot was only pouring for 10 seconds regardless of if there was flow or no flow. Translation &#8211; only 10 seconds of beer. Not enough to fill a 1L stein. Angry beer drinkers. They put up with it for a bit, but we eventually activated the kill switch to placate the drinkers.<br />
+A few weeks later Matt and I sat down to triage the bug. It turns out we missed a single line of code that activated a pull up resistor on the Arduino board that stabalized the reading from the flowmeter. Turns out the flowmeter wasn&#8217;t registering any flow they tripping the 10 second cut off and thereby angering the beer drinkers. One line of code. Sigh. But we fixed it! And did more extensive testing this time. Das Bot is patiently waiting for the next Fest &#8211; and maybe a few summer BBQs (for beta testing of course).</p>
+<p>Parts</p>
+<ul>
+<li>Arduino Uno</li>
+<li>Arduino Ethernet Shield</li>
+<li>Solenoid value</li>
+<li>Flowmeter</li>
+<li>RFID reader</li>
+<li>Thermal receipt printer and paper</li>
+<li>PHP code and Database and server running Apache and mySQL</li>
+<li>Website</li>
+<li>Misc supplies – wire, tools, etc</li>
+</ul>
+<p>Das Bot v.Next Potential Features</p>
+<ul>
+<li>Badges awarded for certain achievements</li>
+<li>Adding support for additional beer lines</li>
+<li>Improving packaging to allow for faster setup and teardown, especially for quick connections for beer inflow and outflow lines</li>
+<li>Addition of breathalyzer to track each users progression over time</li>
+<li>Itegration with the Photubooth that earns credits that can be redeemed for beer</li>
+<li>Integration with Twitter</li>
+</ul>
+<p>-Adam</p>
+<!--kg-card-end: html-->

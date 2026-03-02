@@ -1,0 +1,57 @@
+---
+layout: post
+title: "BBQ Lab - Instrumented BBQ"
+date: 2011-10-11
+tags: ["making"]
+excerpt: " "
+---
+<!--kg-card-begin: html--><div>
+<p>My wife &#8211; Val &#8211; and I love food.  We love to cook it, eat it, and share it with others.  And one of my favorite foods is BBQ.  So a few years ago, we purchased a small smoker to try our hand at making some BBQ.  So first, let’s talk about the BBQ rig.  We live in a smaller house and didn’t want to invest too much money into a smoker until we proved our dedication to the craft, so we purchased a Brinkman gas vertical water smoker.  A vertical water smoker basically looks like a freestanding locker, with a fire in the bottom, followed by a wood pan, followed by a water pan, followed by a few racks for the good stuff &#8211; pork butts, briskets, sausages, etc &#8211; , and finally the exhaust chimney.  I chose the gas model because I thought it would provide more precise control to maintain the temperature of the smoker.  And so it was for a few years that our little smoker produced some really good BBQ.  However, smokers take quite a bit of tending.  You need to make sure the fire it lit, there’s enough wood and its smoking, there’s enough water, the smoker is at the right temperature, and the food isn’t overcooking.  That translates into going outside every 15 &#8211; 30 minutes to check on the smoker, making a few adjustments, and repeating for 8 &#8211; 12 hours.  It’s an all day affair.</p>
+<p>Enter the instrumented smoker &#8211; BBQ Lab v1.0.  My friend Matt turned me onto <a href="http://arduino.cc/en/" target="_blank">Arduinos </a>a few years ago.  Since then I’ve tinkered with a few Arduino basics &#8211; blinking lights, using switches &#8211; but I didn’t really have a focused project.  And so it was that my first true Arduino project was instrumenting my smoker.</p>
+<p>BBQ Lab v1.0 consisted had the following capabilities:</p>
+<ul>
+<li>Measurement of smoker temperature</li>
+<li>Measurement of food temperature</li>
+<li>Measurement of humidity at exhaust chimney</li>
+<li>Measurement of ambient outdoor temperature</li>
+<li>Sending data to a web service every 10 seconds which is logged to a database</li>
+<li>Display of data on a web page with an auto refresh every 10 seconds</li>
+</ul>
+<div style="width: 650px" class="wp-caption alignnone"><a title="BBQ Lab v1.0 by photubooth, on Flickr" href="http://www.flickr.com/photos/x-scooby/5901241788/"><img loading="lazy" src="http://farm7.static.flickr.com/6058/5901241788_dbfbb69199_z.jpg" alt="BBQ Lab v1.0" width="640" height="478" /></a><p class="wp-caption-text">Arduino board with Ethernet shield.</p></div>
+<div style="width: 650px" class="wp-caption alignnone"><a title="BBQ Lab v1.0 by photubooth, on Flickr" href="http://www.flickr.com/photos/x-scooby/5900678125/"><img loading="lazy" src="http://farm7.static.flickr.com/6002/5900678125_e7cf143466_z.jpg" alt="BBQ Lab v1.0" width="640" height="478" /></a><p class="wp-caption-text">Breadboard with leads to Arduino and inputs from thermocouples and humidity sensor.</p></div>
+<div style="width: 650px" class="wp-caption alignnone"><a title="BBQ Lab v1.0 by photubooth, on Flickr" href="http://www.flickr.com/photos/x-scooby/5901243614/"><img loading="lazy" src="http://farm6.static.flickr.com/5077/5901243614_ae87e0cb94_z.jpg" alt="BBQ Lab v1.0" width="640" height="478" /></a><p class="wp-caption-text">Thermocouple probes. The smooth one is for the food, the one with the bolt screws into the side of the smoker.</p></div>
+<div style="width: 496px" class="wp-caption alignnone"><a title="BBQ Lab v1.0 by photubooth, on Flickr" href="http://www.flickr.com/photos/x-scooby/5900680587/"><img loading="lazy" src="http://farm6.static.flickr.com/5279/5900680587_552101cd05_z.jpg" alt="BBQ Lab v1.0" width="486" height="640" /></a><p class="wp-caption-text">Web page displaying real time smoker temperature and humidity.</p></div>
+<p>Parts</p>
+<ul>
+<li><a href="http://www.arduino.cc/en/Main/ArduinoBoardDuemilanove" target="_blank">Arduino Duemilanove</a></li>
+<li><a href="http://www.arduino.cc/en/Guide/ArduinoEthernetShield" target="_blank">Arduino Ehternet Shield</a></li>
+<li><a href="https://www.adafruit.com/products/269" target="_blank">2x Thermocouple Amplifiers and Breakout</a>s</li>
+<li><a href="http://www.auberins.com/index.php?main_page=product_info&amp;cPath=20_3&amp;products_id=56" target="_blank">6&#8243; Pointed Tip Type K Thermocouple Probe</a></li>
+<li><a href="http://www.auberins.com/index.php?main_page=product_info&amp;cPath=20_3&amp;products_id=101" target="_blank">4&#8243; Screw In Type K Thermocouple Probe</a></li>
+<li><a href="http://www.sparkfun.com/products/9569" target="_blank">Humidity Sensor and Breakout</a></li>
+<li>PHP code and Database</li>
+<li>Misc supplies &#8211; wire, tools, etc</li>
+</ul>
+<p>Since BBQ Lab is still undergoing improvements, I haven’t created a permanent mounting solution as of yet.  It currently resides in a Rubbermaid container which protects it from rain and snow.</p>
+<p>BBQ Lab v1.0 made is debut in March 2011 tending a 6 lb pork shoulder.  I setup a small Netbook computer with the BBQ Lab status page and glanced at it every few minutes to check the status of the pork.  While I still had to go outside every once in a while to adjust the temperature or check the smoke, it certainly reduced the overall number of trips.  I also emailed a link to the BBQ Lab to Val and a few friends, which had the awesome effect of having a crowsourced BBQ.  As the temperature rose too high one of my friends IMed me.  Later, when the temp droped severly because of a flame blowout, another friend sent me a text.  It was a group cooking effort &#8211; it was awesome!</p>
+<p>Since then BBQ Lab has gone through a few revisions and cooked more yummie BBQ &#8211; with the continued help of friends watching the instrumentation.</p>
+<p>BBQ Lab v1.1</p>
+<ul>
+<li>Added <a href="http://code.google.com/apis/chart/" target="_blank">Google Charts</a> to show temperature and humidity trends over time</li>
+</ul>
+<p>BBQ Lab v1.2</p>
+<ul>
+<li>Added smoker temperature and food temperature thresholds with send text message alerts when thresholds are exceeded</li>
+</ul>
+<p>BBQ Lab v.Next Potential Features</p>
+<ul>
+<li>Smoke sensor to determine smoke density</li>
+<li>Solenoid valve to throttle propane flow depending on smoker temperature and smoke density</li>
+<li>Gas sensor to detect flame blowouts and turn off propane flow via solenoid valve</li>
+<li>Igniter to reignite flame</li>
+<li>Posting updates to Twitter</li>
+<li>Data analysis and visualization of past BBQs</li>
+</ul>
+</div>
+<div>-Adam</div>
+<!--kg-card-end: html-->

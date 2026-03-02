@@ -40,12 +40,12 @@ exclude:
 
 # Navigation
 nav_links:
-  - title: "About Adam"
+  - title: "About"
     url: "/about/"
   - title: "Spacious Work"
     url: "/spacious-work/"
-  - title: "Projects"
-    url: "/projects/"
+  - title: "Making"
+    url: "/making/"
   - title: "LinkedIn"
     url: "https://www.linkedin.com/in/azolyak/"
     external: true

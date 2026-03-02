@@ -1,0 +1,72 @@
+---
+layout: post
+title: "Das Bot (v2.0) - Now with more beer!"
+date: 2012-10-23
+tags: ["making"]
+excerpt: "How quickly time goes by.  It seems like we only just completed Das Bot v1.0, but with Oktoberfest 2012 quickly approaching we started one of the biggest projects we’ve completed to date – Das Bot 2.0"
+---
+<!--kg-card-begin: html--><p>How quickly time goes by.  It seems like we only just completed <a href="http://www.tinkurlab.com/?p=84">Das Bot v1.0</a>, but with Oktoberfest 2012 quickly approaching we started one of the biggest projects we&#8217;ve completed to date &#8211; Das Bot 2.0.  Instrumented beer on a grand scale!</p>
+<div id="attachment_134" style="width: 810px" class="wp-caption alignnone"><a href="http://www.flickr.com/photos/x-scooby/8095446163/"><img aria-describedby="caption-attachment-134" loading="lazy" class="size-full wp-image-134 " src="/assets/images/wordpress/2012/10/das_bot_setup.jpg" alt="" width="800" height="532" srcset="/assets/images/wordpress/2012/10/das_bot_setup.jpg 800w, /assets/images/wordpress/2012/10/das_bot_setup-300x199.jpg 300w" sizes="(max-width: 800px) 100vw, 800px" /></a><p id="caption-attachment-134" class="wp-caption-text">The final setup, ready for the party to start.</p></div>
+<p>&nbsp;</p>
+<p>Das Bot is a system for monitoring and controlling access to beer through RFID tags. Built on top of an internet-connected Arduino, the system accepts an RFID tag, checks to make sure you&#8217;re registered, opens the solenoid valves in the beer lines, lets you pour a beer and monitors how much you&#8217;ve poured, saves the data to a database, and prints out a receipt. Oh, and there&#8217;s prize badges you can win as well. There were three beers on tap this year (a homebrewed Dunkelweizen, a homebrewed Hefeweizen, and a Hofbrauhaus Oktoberfest) and each beer was tracked independently.</p>
+<h2><strong>The Hardware</strong></h2>
+<p>Das Bot contains the following pieces of hardware:</p>
+<ul>
+<li><strong>Arduino (with Ethernet shield)</strong> &#8211; the brains of the operation. This micro controller is what reads the RFID tags, talks to the PHP/MySQL site, controls the solenoid valves, prints to the thermal printer, and reads the data from the flow meters.</li>
+<li><strong>RFID Reader </strong>&#8211; reads the values from the RFID chips and sends the value to the Arduino.</li>
+<li><strong>3 Solenoid Valves</strong> &#8211; similar to the ones on <a title="Solenoid valve" href="https://www.adafruit.com/products/997">Adafruit&#8217;s site</a>, these valves are normally closed (restricting access to vital beer) and are only opened when the Arduino gives the go ahead. After 10 seconds of no beer flowing, they close again. Since these draw more current and run at 12v, we used an old 12v wall wart we had laying around to power these (through the relay).</li>
+<li><strong>Relay</strong> &#8211; <a title="Sparkfun relay kit" href="https://www.sparkfun.com/products/10684">This</a> relay controls the power to the solenoids.</li>
+<li><strong>3 Flow Meters</strong> &#8211; we used the <a title="Flow meters" href="https://www.adafruit.com/products/828">ones from Adafruit</a> to send the flow data to the Arduino.</li>
+<li><strong>Thermal Printer</strong> &#8211; printed a welcome message, current stats, and final pour total for each pour.</li>
+<li><strong>Electrical Box</strong> &#8211; from the big box home improvement store, this water (and beer-proof) project enclosure was perfect for housing the Arduino, printer, and other electrical components.</li>
+<li><strong>RGB LED</strong> &#8211; when the light turns blue, pour your beer</li>
+<li><strong>Piezzo Buzzer</strong> &#8211; something this complicated needs to beep. Ours beeps when an RFID is successfully read.</li>
+<li><strong>Jockey Box</strong> &#8211; this converted cooler has a 7-pass plate chiller inside and once covered with ice, chills the beer as it flows through. This means no need to keep the kegs in giant plastic tubs with 800lbs of ice.</li>
+<li><strong>Tap Handles</strong> &#8211; no jockey box is complete without <a title="CNC" href="http://www.tinkurlab.com/?p=106">custom milled</a> tap handles.</li>
+<li><strong>The Override Switch</strong> &#8211; this can not be over-appreciated. Buried in an undisclosed location was a switch that would override the arduino and open the solenoid valves. In the event of catastrophic failure, this is the switch represented the difference between beer and no beer. I&#8217;m always going to support the side with beer.</li>
+</ul>
+<div>
+<div id="attachment_142" style="width: 810px" class="wp-caption alignnone"><a href="http://www.flickr.com/photos/x-scooby/8095448409/"><img aria-describedby="caption-attachment-142" loading="lazy" class="size-full wp-image-142 " src="/assets/images/wordpress/2012/10/solenoids.jpg" alt="" width="800" height="532" srcset="/assets/images/wordpress/2012/10/solenoids.jpg 800w, /assets/images/wordpress/2012/10/solenoids-300x199.jpg 300w" sizes="(max-width: 800px) 100vw, 800px" /></a><p id="caption-attachment-142" class="wp-caption-text">Closeup shot of the solenoids</p></div>
+<div id="attachment_138" style="width: 810px" class="wp-caption alignnone"><a href="http://www.flickr.com/photos/x-scooby/8095454688/"><img aria-describedby="caption-attachment-138" loading="lazy" class="size-full wp-image-138" src="/assets/images/wordpress/2012/10/kill_switch.jpg" alt="" width="800" height="532" srcset="/assets/images/wordpress/2012/10/kill_switch.jpg 800w, /assets/images/wordpress/2012/10/kill_switch-300x199.jpg 300w" sizes="(max-width: 800px) 100vw, 800px" /></a><p id="caption-attachment-138" class="wp-caption-text">The override switch. Luckily, this wasn&#8217;t needed this year. But it&#8217;s nice to know it&#8217;s there.</p></div>
+<p>&nbsp;</p>
+</div>
+<h2>The Software</h2>
+<div>The hardware was almost the easy part of this project. We had experience with <a href="http://www.tinkurlab.com/?p=84">Das Bot v1.0</a>, so adding some additional sensors wasn&#8217;t too difficult. The hard part was getting everything to talk to each other at the right times, with the right data.</div>
+<div></div>
+<div>Here&#8217;s what the software side looked like:</div>
+<div>
+<ul>
+<li><strong>Arduino code</strong> &#8211; this is the air traffic control system. When an RFID chip is read, it sends the data to a web service and gets back the user&#8217;s current status. If they&#8217;re not registered, they get one (and ONLY one) free beer before they&#8217;re required to register. The flow meters are opened and activity from the meters is recorded. After 10 seconds of no flow, the system closes the valves and sends the pour volume data to the web service. The Arduino then prints out a receipt listing pour volumes and any badges that were won on this pour.</li>
+<li><strong>PHP/MySQL</strong> &#8211; a website used to store and present data during the party. The web service components were built using some simple PHP with a MySQL back end. The dashboard (running on an iPad taped inside the kitchen window during the party) presented current keg stats, leaderboards, badge summary, and other interesting bits of info. We also included the calibration for the flow meters in the database to allow for different keg sizes and to help more accurately record the data.</li>
+</ul>
+<div></div>
+</div>
+<div>
+<div id="attachment_139" style="width: 810px" class="wp-caption alignnone"><a href="http://www.flickr.com/photos/x-scooby/8095445859/"><img aria-describedby="caption-attachment-139" loading="lazy" class="size-full wp-image-139" src="/assets/images/wordpress/2012/10/printer_closeup.jpg" alt="" width="800" height="532" srcset="/assets/images/wordpress/2012/10/printer_closeup.jpg 800w, /assets/images/wordpress/2012/10/printer_closeup-300x199.jpg 300w" sizes="(max-width: 800px) 100vw, 800px" /></a><p id="caption-attachment-139" class="wp-caption-text">The welcome message displayed once an RFID tag is scanned</p></div>
+</div>
+<h2> The Dashboard</h2>
+<p>Want to become mayor of the Hofbrauhaus? Brag about having the largest drinking vessel? Why not turn an entire party into a drinking game? With all of the data we were collecting, it seemed natural to present this information back to the user. The thermal printer can only present so much data. The kegs were also under the table, making the &#8220;just lift it to see how much is left&#8221; method rather difficult. So, we created the dashboard to give a quick way to see how much fun we were having (note to self: next year, add a &#8220;fun&#8221; meter).</p>
+<p>The dashboard presented the current leaders, the amount of beer consumed for each keg, the 5 most recent pours, and some other random stats. Some badges were mysteries, only visible once unlocked. Others were hinted at by the icon. Either way, the best way to win a badge was to drink beer. Actually, that was the <em>only</em> way.</p>
+<div id="attachment_141" style="width: 810px" class="wp-caption alignnone"><a href="/assets/images/wordpress/2012/10/screenshot.jpg"><img aria-describedby="caption-attachment-141" loading="lazy" class="size-full wp-image-141 " src="/assets/images/wordpress/2012/10/screenshot.jpg" alt="" width="800" height="820" srcset="/assets/images/wordpress/2012/10/screenshot.jpg 800w, /assets/images/wordpress/2012/10/screenshot-292x300.jpg 292w" sizes="(max-width: 800px) 100vw, 800px" /></a><p id="caption-attachment-141" class="wp-caption-text">How much fun are we having right now? Oh, THAT much. This was displayed on an iPad safely taped to the inside of the kitchen window. It was visible from the taps.</p></div>
+<h2>Future Enhancements</h2>
+<p>Some ideas for the 2013 Oktoberfest:</p>
+<ul>
+<li><strong>Integrate the <a title="Four Frames Photubooth" href="http://www.tinkurlab.com/?p=31">photobooth</a></strong> &#8211; haven&#8217;t been inside the booth in the last hour? No beer for you!</li>
+<li><strong>More badges to win</strong> &#8211; need target different needs in people&#8217;s psyche, not just the &#8220;I drank more than you did&#8221; desire</li>
+<li><strong>Allow &#8220;offline&#8221; badges</strong> &#8211; someone won the beer stein race, but we&#8217;ll never remember who it was. We&#8217;ll need a way to award spot badges from mobile devices.</li>
+<li><strong>More notifications when a badge is won</strong> &#8211; I&#8217;m thinking car horns, disco balls, or fireworks. Perhaps all three.</li>
+<li><strong>Breathalyzer integration</strong> &#8211; imagine tracking this against the volume consumed overlayed with the photobooth pictures. None of our friends will ever be politicians.</li>
+</ul>
+<h2>Images</h2>
+<p>Additional images from the project:</p>
+<p>&nbsp;</p>
+<div id="attachment_140" style="width: 810px" class="wp-caption alignnone"><a href="http://www.flickr.com/photos/x-scooby/8095444631/"><img aria-describedby="caption-attachment-140" loading="lazy" class="size-full wp-image-140 " src="/assets/images/wordpress/2012/10/rfid_chips.jpg" alt="" width="800" height="532" srcset="/assets/images/wordpress/2012/10/rfid_chips.jpg 800w, /assets/images/wordpress/2012/10/rfid_chips-300x199.jpg 300w" sizes="(max-width: 800px) 100vw, 800px" /></a><p id="caption-attachment-140" class="wp-caption-text">RFID chips. Everyone got one. There were also zip ties to attach the chips to your beer stein.</p></div>
+<div id="attachment_143" style="width: 810px" class="wp-caption alignnone"><a href="http://www.flickr.com/photos/x-scooby/8095452442/"><img aria-describedby="caption-attachment-143" loading="lazy" class="size-full wp-image-143" src="/assets/images/wordpress/2012/10/tap_lineup.jpg" alt="" width="800" height="532" srcset="/assets/images/wordpress/2012/10/tap_lineup.jpg 800w, /assets/images/wordpress/2012/10/tap_lineup-300x199.jpg 300w" sizes="(max-width: 800px) 100vw, 800px" /></a><p id="caption-attachment-143" class="wp-caption-text">The custom tap handles came out well.</p></div>
+<div id="attachment_133" style="width: 810px" class="wp-caption alignnone"><a href="http://www.flickr.com/photos/x-scooby/8095441847/"><img aria-describedby="caption-attachment-133" loading="lazy" class="size-full wp-image-133" src="/assets/images/wordpress/2012/10/das_bot_compact.jpg" alt="" width="800" height="532" srcset="/assets/images/wordpress/2012/10/das_bot_compact.jpg 800w, /assets/images/wordpress/2012/10/das_bot_compact-300x199.jpg 300w" sizes="(max-width: 800px) 100vw, 800px" /></a><p id="caption-attachment-133" class="wp-caption-text">The system, all condensed.</p></div>
+<div id="attachment_132" style="width: 810px" class="wp-caption alignnone"><a href="http://www.flickr.com/photos/x-scooby/8095453674/"><img aria-describedby="caption-attachment-132" loading="lazy" class="size-full wp-image-132" src="/assets/images/wordpress/2012/10/taped_up.jpg" alt="" width="800" height="532" srcset="/assets/images/wordpress/2012/10/taped_up.jpg 800w, /assets/images/wordpress/2012/10/taped_up-300x199.jpg 300w" sizes="(max-width: 800px) 100vw, 800px" /></a><p id="caption-attachment-132" class="wp-caption-text">Water and electricity don&#8217;t mix, so we taped the electronics inside the cooler to the lid.</p></div>
+<p>Additional photos can be found on <a title="Flickr" href="http://www.flickr.com/photos/x-scooby/tags/jockeybox/">Flickr</a></p>
+<p>&nbsp;</p>
+<p>-Matt</p>
+<p>&nbsp;</p>
+<p>*<strong>Disclaimer</strong> &#8211; Please note that this system was built for responsible adults. EVERY person in the &#8220;leader boards&#8221; either spent the night (and likely much of the next day) at the location or were driven home by a designated driver. We might mix water, beer, and electricity together from time to time, but we certainly don&#8217;t drink and drive.</p>
+<!--kg-card-end: html-->
